@@ -1,0 +1,5 @@
+argparse==1.2.1
+nose==1.2.1
+tornado==2.4.1
+-e git://github.com/joshmarshall/tornado-websocket-client.git@ce0f99529a3b2ff05780dd97a6c91d2c6042d226#egg=tornado_websocket_client-dev
+wsgiref==0.1.2
