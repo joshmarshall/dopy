@@ -1,4 +1,4 @@
-from dopy.tree import Tree, asynchronous
+from dopy.tree import Tree, asynchronous, IllegalAttributeLookup
 import mock
 import unittest
 
@@ -89,3 +89,7 @@ class TestTree(unittest.TestCase):
         self.assertEqual((), args)
         self.assertEqual({}, kwargs)
         self.assertEqual("shoe", instance.identifier)
+
+    def test_tree_illegal_lookup(self):
+        with self.assertRaises(IllegalAttributeLookup):
+            self.call_method("foo.@what.__sizeof__")

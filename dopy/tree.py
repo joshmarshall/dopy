@@ -23,9 +23,16 @@ class Tree(object):
             _crawl_attributes(method_parts, callee, args, kwargs, callback)
 
 
+class IllegalAttributeLookup(Exception):
+    """Raised when someone is naughty with their attribute lookups."""
+
+
 def _crawl_attributes(method_parts, callee, args, kwargs, callback):
     while method_parts:
         attribute_name = method_parts.pop(0)
+        if attribute_name.startswith("_"):
+            raise IllegalAttributeLookup(
+                "Attribute %s access is not allowed.")
         if attribute_name.startswith("@"):
             def lookup_callback(result):
                 _crawl_attributes(method_parts, result, args, kwargs, callback)

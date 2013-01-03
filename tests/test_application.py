@@ -15,11 +15,8 @@ class Stub(object):
     def __init__(self, identifier):
         self._identifier = identifier
 
-    def foo(self):
-        return self._identifier
-
     def add(self, x, y):
-        return x + y
+        return "%s:%d" % (self._identifier, x + y)
 
 
 class TestRouter(WebSocketTestCase):
@@ -43,5 +40,18 @@ class TestRouter(WebSocketTestCase):
         self.assertEqual({
             "jsonrpc": "2.0",
             "result": 19,
+            "id": "1"
+        }, json.loads(response))
+
+    def test_tree_class_registration(self):
+        response = self.send_receive(json.dumps({
+            "method": "stub.fetch.@id.add",
+            "jsonrpc": "2.0",
+            "params": [16, 10],
+            "id": "1"
+        }))
+        self.assertEqual({
+            "jsonrpc": "2.0",
+            "result": "id:26",
             "id": "1"
         }, json.loads(response))
